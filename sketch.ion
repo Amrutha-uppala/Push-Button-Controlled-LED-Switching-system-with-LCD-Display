@@ -1,0 +1,50 @@
+#include <LiquidCrystal.h>
+
+// LCD pin connections
+LiquidCrystal lcd(12, 11, 5, 4, 3, 7);
+
+// Pin declarations
+int button = 2;
+int led = 8;
+
+bool ledState = false;
+int lastButtonState = HIGH;
+
+void setup() {
+
+  pinMode(button, INPUT_PULLUP);
+  pinMode(led, OUTPUT);
+
+  lcd.begin(16, 2);
+
+  digitalWrite(led, LOW);
+
+  lcd.setCursor(0, 0);
+  lcd.print("LED OFF");
+}
+
+void loop() {
+
+  int buttonState = digitalRead(button);
+
+  if (buttonState == LOW && lastButtonState == HIGH) {
+
+    ledState = !ledState;
+
+    digitalWrite(led, ledState);
+
+    lcd.clear();
+    lcd.setCursor(0, 0);
+
+    if (ledState == true) {
+      lcd.print("LED ON");
+    }
+    else {
+      lcd.print("LED OFF");
+    }
+
+    delay(200);
+  }
+
+  lastButtonState = buttonState;
+}
